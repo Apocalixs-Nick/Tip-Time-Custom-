@@ -5,9 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
     android:layout_width="match_parent">
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
@@ -115,9 +113,10 @@
         android:id="@+id/calculate_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/calculate"
         android:layout_marginTop="8dp"
+        android:text="@string/calculate"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@id/round_up_switch"
         app:layout_constraintTop_toBottomOf="@id/round_up_switch" />
 
@@ -127,9 +126,42 @@
         android:layout_marginTop="8dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/tip_amount"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/calculate_button"
         tools:text="Tip Amount: $10" />
+
+    <TextView
+        android:id="@+id/text_currency_exchange_cost"
+        style="@style/Widget.TipTime.TextView"
+        android:layout_marginTop="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/tip_result"
+        tools:text="@string/currency_exchange_cost" />
+
+    <TextView
+        android:id="@+id/text_currency_exchange"
+        style="@style/Widget.TipTime.TextView"
+        android:layout_marginTop="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/text_currency_exchange_cost"
+        tools:text="@string/currency_exchange" />
+
+    <Button
+        android:id="@+id/button_currency_exchange"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="@string/button_exchange"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_currency_exchange"
+        app:layout_constraintStart_toStartOf="@id/calculate_button"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
