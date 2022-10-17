@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.tiptime.databinding.ActivityMainBinding
 import java.text.NumberFormat
@@ -51,7 +52,8 @@ class MainActivity : AppCompatActivity() {
             }
             val formattedTip = NumberFormat.getCurrencyInstance().format(tip)
             binding.tipResult.text = getString(R.string.tip_amount, formattedTip)
-        } else binding.tipResult.text = getString(R.string.tip_amount)
+        } else showErrorMessage(R.string.error_cost)
+        //binding.tipResult.text = getString(R.string.tip_amount)
     }
 
     private fun handleKeyEvent(view: View, keyCode: Int): Boolean {
@@ -72,12 +74,12 @@ class MainActivity : AppCompatActivity() {
     private fun currencyExchange() {
         val stringInTextField = binding.costOfServiceEditText.text.toString()
         val cost = stringInTextField.toDoubleOrNull()
-        val euroValue = 1.03
-        var exchange = cost?.times(euroValue)
-        val formattedExchange = NumberFormat.getCurrencyInstance(Locale.ITALY).format(exchange)
-        binding.textCurrencyExchangeCost.text =
-            getString(R.string.currency_exchange_cost, formattedExchange)
         if (cost != null) {
+            val euroValue = 1.03
+            var exchange = cost.times(euroValue)
+            val formattedExchange = NumberFormat.getCurrencyInstance(Locale.ITALY).format(exchange)
+            binding.textCurrencyExchangeCost.text =
+                getString(R.string.currency_exchange_cost, formattedExchange)
             val selectedId = binding.tipOptions.checkedRadioButtonId
             val tipPercentage = when (selectedId) {
                 R.id.option_twenty_percent -> 0.20
@@ -88,15 +90,21 @@ class MainActivity : AppCompatActivity() {
             val roundUp = binding.roundUpSwitch.isChecked
             if (roundUp) {
                 tip = kotlin.math.ceil(tip)
-                exchange = exchange?.plus(tip)
             }
+            exchange = exchange.plus(tip)
             val formattedTip = NumberFormat.getCurrencyInstance(Locale.ITALY).format(exchange)
             if (roundUp) {
                 binding.textCurrencyExchange.text =
                     getString(R.string.currency_exchange_tip, formattedTip)
-            }
-            else binding.textCurrencyExchange.text =
+            } else binding.textCurrencyExchange.text =
                 getString(R.string.currency_exchange, formattedTip)
-        } else binding.textCurrencyExchange.text = getString(R.string.currency_exchange)
+        } else showErrorMessage(R.string.error_change)
+    }
+
+    /**
+     * The private function showErrorMessage prints an alert with the error message
+     */
+    private fun showErrorMessage(errorMessageId: Int) {
+        Toast.makeText(applicationContext, getString(errorMessageId), Toast.LENGTH_SHORT).show()
     }
 }
