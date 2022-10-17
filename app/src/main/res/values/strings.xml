@@ -14,5 +14,7 @@
     <string name="currency_exchange">Currency Exchange with tip: %s</string>
     <string name="currency_exchange_tip">Currency Exchange with rounded tip: %s</string>
     <string name="currency_exchange_cost">Converted Cost: %s</string>
+    <string name="error_cost">No cost entered</string>
+    <string name="error_change">No currency exchange, enter the cost</string>
     <string name="button_exchange"><![CDATA[$->€]]></string>
 </resources>

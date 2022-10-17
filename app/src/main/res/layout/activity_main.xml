@@ -64,7 +64,7 @@
         style="@style/Widget.TipTime.CompoundButton.RadioButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:checkedButton="@id/option_twenty_percent"
+        android:checkedButton="@id/option_eighteen_percent"
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="@id/service_question"
         app:layout_constraintTop_toBottomOf="@id/service_question">
@@ -93,7 +93,7 @@
         android:id="@+id/round_up_switch"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:checked="true"
+        android:checked="false"
         android:text="@string/round_up_tip"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/tip_options"
@@ -154,11 +154,11 @@
     <TextView
         android:id="@+id/text_currency_exchange"
         style="@style/Widget.TipTime.TextView"
-        android:layout_marginTop="8dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"
         android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/text_currency_exchange_cost"
         tools:text="@string/currency_exchange" />
 
