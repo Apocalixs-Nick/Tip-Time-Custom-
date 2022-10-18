@@ -14,7 +14,7 @@ import java.util.*
 
 @SuppressLint("StaticFieldLeak")
 lateinit var binding: ActivityMainBinding
-
+const val euroValue = 1.03
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,8 +28,6 @@ class MainActivity : AppCompatActivity() {
                 keyCode
             )
         }
-        //At the click of the button the private currencyExchange function is called
-        binding.buttonCurrencyExchange.setOnClickListener { currencyExchange() }
     }
 
     /**
@@ -39,33 +37,23 @@ class MainActivity : AppCompatActivity() {
         val stringInTextField = binding.costOfServiceEditText.text.toString()
         val cost = stringInTextField.toDoubleOrNull()
         if (cost != null) {
-            val selectedId = binding.tipOptions.checkedRadioButtonId
-            val tipPercentage = when (selectedId) {
-                R.id.option_twenty_percent -> 0.20
-                R.id.option_eighteen_percent -> 0.18
-                else -> 0.15
-            }
+            val tipPercentage = getTipPercentage()
             var tip = tipPercentage * cost
-            val roundUp = binding.roundUpSwitch.isChecked
-            if (roundUp) {
+            if (binding.roundUpSwitch.isChecked) {
                 tip = kotlin.math.ceil(tip)
             }
             val formattedTip = NumberFormat.getCurrencyInstance().format(tip)
             binding.tipResult.text = getString(R.string.tip_amount, formattedTip)
+            if(binding.convertToEuroSwitch.isChecked){
+                currencyExchange()
+            } else {
+                setTextToEmptyCurrencyEuro()
+            }
         } else showErrorMessage(R.string.error_cost)
         //binding.tipResult.text = getString(R.string.tip_amount)
     }
 
-    private fun handleKeyEvent(view: View, keyCode: Int): Boolean {
-        if (keyCode == KeyEvent.KEYCODE_ENTER) {
-            // Hide the keyboard
-            val inputMethodManager =
-                getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
-            return true
-        }
-        return false
-    }
+
 
     /**
      * The private function currencyExchange converts the cost of the service (in this case in dollars) in euro (referring to Italy,
@@ -75,25 +63,18 @@ class MainActivity : AppCompatActivity() {
         val stringInTextField = binding.costOfServiceEditText.text.toString()
         val cost = stringInTextField.toDoubleOrNull()
         if (cost != null) {
-            val euroValue = 1.03
             var exchange = cost.times(euroValue)
             val formattedExchange = NumberFormat.getCurrencyInstance(Locale.ITALY).format(exchange)
             binding.textCurrencyExchangeCost.text =
                 getString(R.string.currency_exchange_cost, formattedExchange)
-            val selectedId = binding.tipOptions.checkedRadioButtonId
-            val tipPercentage = when (selectedId) {
-                R.id.option_twenty_percent -> 0.20
-                R.id.option_eighteen_percent -> 0.18
-                else -> 0.15
-            }
+            val tipPercentage = getTipPercentage()
             var tip = tipPercentage * cost
-            val roundUp = binding.roundUpSwitch.isChecked
-            if (roundUp) {
+            if (binding.roundUpSwitch.isChecked) {
                 tip = kotlin.math.ceil(tip)
             }
             exchange = exchange.plus(tip)
             val formattedTip = NumberFormat.getCurrencyInstance(Locale.ITALY).format(exchange)
-            if (roundUp) {
+            if (binding.roundUpSwitch.isChecked) {
                 binding.textCurrencyExchange.text =
                     getString(R.string.currency_exchange_tip, formattedTip)
             } else binding.textCurrencyExchange.text =
@@ -106,5 +87,37 @@ class MainActivity : AppCompatActivity() {
      */
     private fun showErrorMessage(errorMessageId: Int) {
         Toast.makeText(applicationContext, getString(errorMessageId), Toast.LENGTH_SHORT).show()
+    }
+
+    /**
+     * Set the currency exchange text to an empty one if the user before wanted the
+     * result in euro currency and after he turned to disabled the switch
+     */
+    private fun setTextToEmptyCurrencyEuro(){
+        binding.textCurrencyExchange.text = ""
+        binding.textCurrencyExchangeCost.text = ""
+    }
+
+    /**
+     * Get the tip percentage by checking what radio button id is pressed and then
+     * returns a double
+     */
+    private fun getTipPercentage(): Double{
+        return when (binding.tipOptions.checkedRadioButtonId){
+            R.id.option_twenty_percent -> 0.20
+            R.id.option_eighteen_percent -> 0.18
+            else -> 0.15
+        }
+    }
+
+    private fun handleKeyEvent(view: View, keyCode: Int): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_ENTER) {
+            // Hide the keyboard
+            val inputMethodManager =
+                getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+            return true
+        }
+        return false
     }
 }

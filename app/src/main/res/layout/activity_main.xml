@@ -109,6 +109,26 @@
         app:layout_constraintBottom_toBottomOf="@id/round_up_switch"
         app:srcCompat="@drawable/ic_baseline_call_made_24" />
 
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/convert_to_euro_switch"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:checked="false"
+        android:text="@string/euro_currency_switch_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/round_up_switch"
+        app:layout_constraintTop_toBottomOf="@id/round_up_switch" />
+
+    <ImageView
+        android:id="@+id/icon_convert_to_euro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:importantForAccessibility="no"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/convert_to_euro_switch"
+        app:layout_constraintBottom_toBottomOf="@id/convert_to_euro_switch"
+        app:srcCompat="@drawable/ic_baseline_euro_symbol_24" />
+
     <Button
         android:id="@+id/calculate_button"
         android:layout_width="0dp"
@@ -117,12 +137,12 @@
         android:text="@string/calculate"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@id/round_up_switch"
-        app:layout_constraintTop_toBottomOf="@id/round_up_switch" />
+        app:layout_constraintStart_toStartOf="@id/convert_to_euro_switch"
+        app:layout_constraintTop_toBottomOf="@id/convert_to_euro_switch" />
 
     <TextView
         android:id="@+id/tip_result"
-        style="@style/Widget.TipTime.TextView"
+        style="@style/Widget.TipTime.TextViewResult"
         android:layout_marginTop="8dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -130,48 +150,26 @@
         app:layout_constraintTop_toBottomOf="@id/calculate_button"
         tools:text="Tip Amount: $10" />
 
-    <ImageView
-        android:id="@+id/icon_change_value"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:importantForAccessibility="no"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/text_currency_exchange_cost"
-        app:layout_constraintBottom_toBottomOf="@id/text_currency_exchange_cost"
-        app:srcCompat="@drawable/ic_baseline_euro_symbol_24" />
-
     <TextView
         android:id="@+id/text_currency_exchange_cost"
-        android:textSize="25dp"
-        android:layout_marginTop="8dp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+
+        style="@style/Widget.TipTime.TextViewResultEuro"
         app:layout_constraintEnd_toEndOf="parent"
-        android:gravity="center"
         app:layout_constraintTop_toBottomOf="@id/tip_result"
         tools:text="@string/currency_exchange_cost" />
 
     <TextView
         android:id="@+id/text_currency_exchange"
-        style="@style/Widget.TipTime.TextView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        style="@style/Widget.TipTime.TextViewResultEuro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/text_currency_exchange_cost"
         tools:text="@string/currency_exchange" />
-
-    <Button
-        android:id="@+id/button_currency_exchange"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:gravity="center"
-        android:text="@string/button_exchange"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_currency_exchange"
-        app:layout_constraintStart_toStartOf="@id/calculate_button"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

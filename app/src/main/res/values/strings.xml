@@ -9,11 +9,10 @@
     <string name="calculate">Calculate</string>
     <string name="tip_amount">Tip amount: %s</string>
     <string name="round_up_tip">Round up tip?</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="liter">Liter</string>
+    <string name="euro_currency_switch_text">Print result in euro currency?</string>
     <string name="currency_exchange">Currency Exchange with tip: %s</string>
-    <string name="currency_exchange_tip">Currency Exchange with rounded tip: %s</string>
-    <string name="currency_exchange_cost">Converted Cost: %s</string>
+    <string name="currency_exchange_tip">Converted cost with rounded tip: %s</string>
+    <string name="currency_exchange_cost">Converted cost Of Service: %s</string>
     <string name="error_cost">No cost entered</string>
     <string name="error_change">No currency exchange, enter the cost</string>
     <string name="button_exchange"><![CDATA[$->€]]></string>

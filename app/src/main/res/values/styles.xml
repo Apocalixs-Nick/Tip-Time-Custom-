@@ -3,6 +3,18 @@
     <style name="Widget.TipTime.TextView" parent="Widget.MaterialComponents.TextView">
         <item name="android:minHeight">@dimen/min_text_height</item>
         <item name="android:gravity">center_vertical</item>
+        <item name="android:textAppearance">?attr/textAppearanceHeadline6</item>
+    </style>
+
+    <style name="Widget.TipTime.TextViewResult" parent="Widget.MaterialComponents.TextView">
+        <item name="android:minHeight">@dimen/min_text_height_Result</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textAppearance">?attr/textAppearanceHeadline6</item>
+    </style>
+
+    <style name="Widget.TipTime.TextViewResultEuro" parent="Widget.MaterialComponents.TextView">
+        <item name="android:minHeight">@dimen/min_text_height_Result</item>
+        <item name="android:gravity">center_vertical</item>
         <item name="android:textAppearance">?attr/textAppearanceBody1</item>
     </style>
 
