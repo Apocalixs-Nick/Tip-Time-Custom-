@@ -34,8 +34,7 @@ class MainActivity : AppCompatActivity() {
      * The private calculateTip function allows you to calculate the tip (possibly round it up) based on the cost of the service and the experience of the service
      */
     private fun calculateTip() {
-        val stringInTextField = binding.costOfServiceEditText.text.toString()
-        val cost = stringInTextField.toDoubleOrNull()
+        val cost = binding.costOfServiceEditText.text.toString().toDoubleOrNull()
         if (cost != null) {
             val tipPercentage = getTipPercentage()
             var tip = tipPercentage * cost
@@ -45,7 +44,7 @@ class MainActivity : AppCompatActivity() {
             val formattedTip = NumberFormat.getCurrencyInstance().format(tip)
             binding.tipResult.text = getString(R.string.tip_amount, formattedTip)
             if(binding.convertToEuroSwitch.isChecked){
-                currencyExchange()
+                currencyExchange(cost, tipPercentage)
             } else {
                 setTextToEmptyCurrencyEuro()
             }
@@ -53,33 +52,26 @@ class MainActivity : AppCompatActivity() {
         //binding.tipResult.text = getString(R.string.tip_amount)
     }
 
-
-
     /**
      * The private function currencyExchange converts the cost of the service (in this case in dollars) in euro (referring to Italy,
      * displaying on screen the cost with the tip rounded and not
      */
-    private fun currencyExchange() {
-        val stringInTextField = binding.costOfServiceEditText.text.toString()
-        val cost = stringInTextField.toDoubleOrNull()
-        if (cost != null) {
-            var exchange = cost.times(euroValue)
-            val formattedExchange = NumberFormat.getCurrencyInstance(Locale.ITALY).format(exchange)
-            binding.textCurrencyExchangeCost.text =
-                getString(R.string.currency_exchange_cost, formattedExchange)
-            val tipPercentage = getTipPercentage()
-            var tip = tipPercentage * cost
-            if (binding.roundUpSwitch.isChecked) {
-                tip = kotlin.math.ceil(tip)
-            }
-            exchange = exchange.plus(tip)
-            val formattedTip = NumberFormat.getCurrencyInstance(Locale.ITALY).format(exchange)
-            if (binding.roundUpSwitch.isChecked) {
-                binding.textCurrencyExchange.text =
-                    getString(R.string.currency_exchange_tip, formattedTip)
-            } else binding.textCurrencyExchange.text =
-                getString(R.string.currency_exchange, formattedTip)
-        } else showErrorMessage(R.string.error_change)
+    private fun currencyExchange(cost: Double, tipPercentage: Double) {
+        var exchange = cost.times(euroValue)
+        val formattedExchange = NumberFormat.getCurrencyInstance(Locale.ITALY).format(exchange)
+        binding.textCurrencyExchangeCost.text =
+            getString(R.string.currency_exchange_cost, formattedExchange)
+        var tip = tipPercentage * cost
+        if (binding.roundUpSwitch.isChecked) {
+            tip = kotlin.math.ceil(tip)
+        }
+        exchange = exchange.plus(tip)
+        val formattedTip = NumberFormat.getCurrencyInstance(Locale.ITALY).format(exchange)
+        if (binding.roundUpSwitch.isChecked) {
+            binding.textCurrencyExchange.text =
+                getString(R.string.currency_exchange_tip, formattedTip)
+        } else binding.textCurrencyExchange.text =
+            getString(R.string.currency_exchange, formattedTip)
     }
 
     /**
