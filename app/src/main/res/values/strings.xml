@@ -8,6 +8,8 @@
     <string name="okay_15">Okay (15%)</string>
     <string name="custom_tip">Custom tip</string>
     <string name="custom_tip_percentage">Custom tip %</string>
+    <string name="custom_tip_percentage_error">Custom tip cannot be empty.</string>
+    <string name="cost_of_service_error">Cost of service cannot be empty.</string>
     <string name="calculate">Calculate</string>
     <string name="tip_amount">Tip amount: %s</string>
     <string name="round_up_tip">Round up tip?</string>
