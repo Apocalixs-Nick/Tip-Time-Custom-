@@ -3,6 +3,7 @@ package com.example.tiptime
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -15,6 +16,7 @@ import java.util.*
 @SuppressLint("StaticFieldLeak")
 lateinit var binding: ActivityMainBinding
 const val euroValue = 1.03
+var customTip: Boolean = false
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,14 +38,19 @@ class MainActivity : AppCompatActivity() {
     private fun calculateTip() {
         val cost = binding.costOfServiceEditText.text.toString().toDoubleOrNull()
         if (cost != null) {
-            val tipPercentage = getTipPercentage()
+            val tipPercentage = if (customTip && !checkIfCustomTipIsEmpty()) {
+                binding.customTipEditText.text.toString().toDouble() / 100
+            } else {
+                getTipPercentage()
+            }
+
             var tip = tipPercentage * cost
             if (binding.roundUpSwitch.isChecked) {
                 tip = kotlin.math.ceil(tip)
             }
             val formattedTip = NumberFormat.getCurrencyInstance().format(tip)
             binding.tipResult.text = getString(R.string.tip_amount, formattedTip)
-            if(binding.convertToEuroSwitch.isChecked){
+            if (binding.convertToEuroSwitch.isChecked) {
                 currencyExchange(cost, tipPercentage)
             } else {
                 setTextToEmptyCurrencyEuro()
@@ -85,7 +92,7 @@ class MainActivity : AppCompatActivity() {
      * Set the currency exchange text to an empty one if the user before wanted the
      * result in euro currency and after he turned to disabled the switch
      */
-    private fun setTextToEmptyCurrencyEuro(){
+    private fun setTextToEmptyCurrencyEuro() {
         binding.textCurrencyExchange.text = ""
         binding.textCurrencyExchangeCost.text = ""
     }
@@ -94,8 +101,8 @@ class MainActivity : AppCompatActivity() {
      * Get the tip percentage by checking what radio button id is pressed and then
      * returns a double
      */
-    private fun getTipPercentage(): Double{
-        return when (binding.tipOptions.checkedRadioButtonId){
+    private fun getTipPercentage(): Double {
+        return when (binding.tipOptions.checkedRadioButtonId) {
             R.id.option_twenty_percent -> 0.20
             R.id.option_eighteen_percent -> 0.18
             else -> 0.15
@@ -111,5 +118,20 @@ class MainActivity : AppCompatActivity() {
             return true
         }
         return false
+    }
+
+    private fun checkIfCustomTipIsEmpty(): Boolean{
+        return binding.customTipEditText.text.toString().isEmpty()
+    }
+
+    fun showCustomTipEditText(view: View) {
+        if (binding.tipOptions.checkedRadioButtonId == R.id.option_custom_tip_percent) {
+            customTip = true
+            binding.customTip.visibility = (View.VISIBLE)
+        } else
+        {
+            customTip = false
+            binding.customTip.visibility = (View.GONE)
+        }
     }
 }
