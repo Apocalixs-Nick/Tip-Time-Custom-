@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
             //Else set the text to 0 to prevent crashes
             if (!checkIfCustomTipIsEmpty()) {
                 tipPercentage = binding.customTipEditText.text.toString().toDouble() / 100
-            } else binding.customTipEditText.setText("0")
+            }
             //Calculate tip
             var tip = tipPercentage * cost
             //If the round up tip switch is checked, it will round up the tip to the highest value possible
