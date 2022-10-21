@@ -157,7 +157,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/convert_to_euro_switch"
         app:layout_constraintBottom_toBottomOf="@id/convert_to_euro_switch"
-        app:srcCompat="@drawable/ic_baseline_euro_symbol_24" />
+        app:srcCompat="@drawable/ic_baseline_money_24" />
 
     <Button
         android:id="@+id/calculate_button"
@@ -199,6 +199,36 @@
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/text_currency_exchange_cost"
+        tools:text="@string/currency_exchange" />
+
+    <TextView
+        android:id="@+id/tip_result2"
+        style="@style/Widget.TipTime.TextViewResult"
+        android:layout_marginTop="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_currency_exchange"
+        tools:text="Tip Amount: $10" />
+    <TextView
+        android:id="@+id/text_currency_exchange_cost2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+
+        style="@style/Widget.TipTime.TextViewResultEuro"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tip_result2"
+        tools:text="@string/currency_exchange_cost" />
+
+    <TextView
+        android:id="@+id/text_currency_exchange2"
+        style="@style/Widget.TipTime.TextViewResultEuro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_currency_exchange_cost2"
         tools:text="@string/currency_exchange" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

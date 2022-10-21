@@ -15,6 +15,8 @@ import java.util.*
 @SuppressLint("StaticFieldLeak")
 lateinit var binding: ActivityMainBinding
 const val euroValue = 1.03
+const val usValue = 0.9765
+const val poundsValue = 0.8765
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,30 +70,151 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
+     * It will accept a currency as a string and it will return it to Locale location
+     */
+    private fun transformCurrencySymbolToLocale(currency: String): Locale {
+        return when (currency) {
+            "$" -> Locale.US
+            "€" -> Locale.ITALY
+            "£" -> Locale.ENGLISH
+            else -> Locale.getDefault()
+        }
+    }
+
+    /**
+     * Private currency exchange function
+     */
+
+    private fun Change(
+        currentLocate: Locale,
+        value: Double,
+        valueFisrtExchange: Double,
+        valueSecondExchange: Double,
+        symbol: String?,
+        cost: Double,
+        tipPercentage: Double,
+        localeFisrtExchange: Locale,
+        localeSecondExchange: Locale
+    ) {
+        if (symbol == symbol) {
+            //Calculate exchange by multiplying the cost of service per the euro value
+            var exchange = cost.times(valueFisrtExchange)
+            //Set the formatted Exchange to Euro
+            val formattedExchange =
+                NumberFormat.getCurrencyInstance(localeFisrtExchange).format(exchange)
+            //Calculating the tip in Euro
+            var tip = tipPercentage * exchange
+            //If the round up tip switch is checked, it will round up the tip to the highest value possible
+            if (binding.roundUpSwitch.isChecked) {
+                tip = kotlin.math.ceil(tip)
+            }
+            exchange = exchange.plus(tip)
+            val formattedTip =
+                NumberFormat.getCurrencyInstance(localeFisrtExchange).format(exchange)
+            val changeTip = NumberFormat.getCurrencyInstance(localeFisrtExchange).format(tip)
+            //Set text of euro values on screen
+            binding.tipResult.text = getString(R.string.tip_amount, changeTip)
+            binding.textCurrencyExchangeCost.text =
+                getString(R.string.currency_exchange_cost, formattedExchange)
+            if (binding.roundUpSwitch.isChecked) {
+                binding.textCurrencyExchange.text =
+                    getString(R.string.currency_exchange_tip, formattedTip)
+            } else binding.textCurrencyExchange.text =
+                getString(R.string.currency_exchange, formattedTip)
+            //Calculate exchange by multiplying the cost of service per the euro value
+            var exchange2 = cost.times(valueSecondExchange)
+            //Set the formatted Exchange to Euro
+            val formattedExchange2 =
+                NumberFormat.getCurrencyInstance(localeSecondExchange).format(exchange2)
+            //Calculating the tip in Euro
+            var tip2 = tipPercentage * exchange2
+            //If the round up tip switch is checked, it will round up the tip to the highest value possible
+            if (binding.roundUpSwitch.isChecked) {
+                tip2 = kotlin.math.ceil(tip2)
+            }
+            exchange2 = exchange2.plus(tip2)
+            val formattedTip2 =
+                NumberFormat.getCurrencyInstance(localeSecondExchange).format(exchange2)
+            val changeTip2 = NumberFormat.getCurrencyInstance(localeSecondExchange).format(tip2)
+            //Set text of euro values on screen
+            binding.tipResult2.text = getString(R.string.tip_amount, changeTip2)
+            binding.textCurrencyExchangeCost2.text =
+                getString(R.string.currency_exchange_cost, formattedExchange2)
+            if (binding.roundUpSwitch.isChecked) {
+                binding.textCurrencyExchange2.text =
+                    getString(R.string.currency_exchange_tip, formattedTip2)
+            } else binding.textCurrencyExchange2.text =
+                getString(R.string.currency_exchange, formattedTip2)
+        } else {
+            //Calculate exchange by multiplying the cost of service per the euro value
+            var exchange = cost * value
+            //Set the formatted Exchange to Euro
+            val formattedExchange = NumberFormat.getCurrencyInstance(currentLocate).format(exchange)
+            //Calculating the tip in Euro
+            var tip = tipPercentage * exchange
+            //If the round up tip switch is checked, it will round up the tip to the highest value possible
+            if (binding.roundUpSwitch.isChecked) {
+                tip = kotlin.math.ceil(tip)
+            }
+            exchange = exchange.plus(tip)
+            val formattedTip = NumberFormat.getCurrencyInstance(currentLocate).format(exchange)
+            val changeTip = NumberFormat.getCurrencyInstance(currentLocate).format(tip)
+            binding.tipResult.text = getString(R.string.tip_amount, changeTip)
+            binding.textCurrencyExchangeCost.text =
+                getString(R.string.currency_exchange_cost, formattedExchange)
+            if (binding.roundUpSwitch.isChecked) {
+                binding.textCurrencyExchange.text =
+                    getString(R.string.currency_exchange_tip, formattedTip)
+            } else binding.textCurrencyExchange.text =
+                getString(R.string.currency_exchange, formattedTip)
+        }
+    }
+
+
+    /**
      * The private function currencyExchange converts the cost of the service (in this case in dollars) in euro (referring to Italy,
      * displaying on screen the cost with the tip rounded and not
      */
     private fun currencyExchange(cost: Double, tipPercentage: Double) {
-        //Calculate exchange by multiplying the cost of service per the euro value
-        var exchange = cost.times(euroValue)
-        //Set the formatted Exchange to Euro
-        val formattedExchange = NumberFormat.getCurrencyInstance(Locale.ITALY).format(exchange)
-        //Calculating the tip in Euro
-        var tip = tipPercentage * cost
-        //If the round up tip switch is checked, it will round up the tip to the highest value possible
-        if (binding.roundUpSwitch.isChecked) {
-            tip = kotlin.math.ceil(tip)
+        val numberFormat = NumberFormat.getCurrencyInstance(Locale.getDefault())
+        val symbol = numberFormat.currency?.symbol
+        if (symbol == "$") {
+            Change(
+                Locale.US,
+                usValue,
+                euroValue,
+                poundsValue,
+                symbol,
+                cost,
+                tipPercentage,
+                Locale.ITALY,
+                Locale.UK
+            )
+        } else if (symbol == "€") {
+            Change(
+                Locale.ITALY,
+                euroValue,
+                usValue,
+                poundsValue,
+                symbol,
+                cost,
+                tipPercentage,
+                Locale.US,
+                Locale.UK
+            )
+        } else if (symbol == "£") {
+            Change(
+                Locale.UK,
+                poundsValue,
+                usValue,
+                euroValue,
+                symbol,
+                cost,
+                tipPercentage,
+                Locale.US,
+                Locale.ITALY
+            )
         }
-        exchange = exchange.plus(tip)
-        val formattedTip = NumberFormat.getCurrencyInstance(Locale.ITALY).format(exchange)
-        //Set text of euro values on screen
-        binding.textCurrencyExchangeCost.text =
-            getString(R.string.currency_exchange_cost, formattedExchange)
-        if (binding.roundUpSwitch.isChecked) {
-            binding.textCurrencyExchange.text =
-                getString(R.string.currency_exchange_tip, formattedTip)
-        } else binding.textCurrencyExchange.text =
-            getString(R.string.currency_exchange, formattedTip)
     }
 
     /**
@@ -108,6 +231,9 @@ class MainActivity : AppCompatActivity() {
     private fun setTextToEmptyCurrencyEuro() {
         binding.textCurrencyExchange.text = ""
         binding.textCurrencyExchangeCost.text = ""
+        binding.tipResult2.text = ""
+        binding.textCurrencyExchange2.text = ""
+        binding.textCurrencyExchangeCost2.text = ""
     }
 
     /**
