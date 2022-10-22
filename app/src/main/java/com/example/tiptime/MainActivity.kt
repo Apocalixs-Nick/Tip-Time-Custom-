@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity() {
             }
             //Format tip to current location value
             val formattedTip = NumberFormat.getCurrencyInstance().format(tip)
-            binding.tipResult.text = getString(R.string.tip_amount, formattedTip)
+            binding.firstTipResult.text = getString(R.string.tip_amount, formattedTip)
             //If the Euro Switch is checked, then call the method to do the currency exchange
             //Else set the text to currency euro to empty if the user don't want anymore this values
             if (binding.convertToEuroSwitch.isChecked) {
@@ -64,7 +64,6 @@ class MainActivity : AppCompatActivity() {
             } else {
                 setTextToEmptyCurrencyEuro()
             }
-
         } else binding.costOfServiceEditText.error = getString(R.string.cost_of_service_error)
         //binding.tipResult.text = getString(R.string.tip_amount)
     }
@@ -82,27 +81,26 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     * Private currency exchange function
+     * Private function for setting text, calculations and currency exchange
      */
-
     private fun Change(
         currentLocate: Locale,
         value: Double,
-        valueFisrtExchange: Double,
+        valueFirstExchange: Double,
         valueSecondExchange: Double,
         symbol: String?,
         cost: Double,
         tipPercentage: Double,
-        localeFisrtExchange: Locale,
+        localeFirstExchange: Locale,
         localeSecondExchange: Locale
     ) {
         if (symbol == symbol) {
-            //Calculate exchange by multiplying the cost of service per the euro value
-            var exchange = cost.times(valueFisrtExchange)
-            //Set the formatted Exchange to Euro
+            //Calculate the exchange by multiplying the cost of the service by the first currency exchange
+            var exchange = cost.times(valueFirstExchange)
+            //Set the exchange format to the first currency exchange
             val formattedExchange =
-                NumberFormat.getCurrencyInstance(localeFisrtExchange).format(exchange)
-            //Calculating the tip in Euro
+                NumberFormat.getCurrencyInstance(localeFirstExchange).format(exchange)
+            //Tip calculation based on the first currency exchange
             var tip = tipPercentage * exchange
             //If the round up tip switch is checked, it will round up the tip to the highest value possible
             if (binding.roundUpSwitch.isChecked) {
@@ -110,23 +108,23 @@ class MainActivity : AppCompatActivity() {
             }
             exchange = exchange.plus(tip)
             val formattedTip =
-                NumberFormat.getCurrencyInstance(localeFisrtExchange).format(exchange)
-            val changeTip = NumberFormat.getCurrencyInstance(localeFisrtExchange).format(tip)
-            //Set text of euro values on screen
-            binding.tipResult.text = getString(R.string.tip_amount, changeTip)
-            binding.textCurrencyExchangeCost.text =
+                NumberFormat.getCurrencyInstance(localeFirstExchange).format(exchange)
+            val changeTip = NumberFormat.getCurrencyInstance(localeFirstExchange).format(tip)
+            //Set the text of values based on the first currency exchange on the screen
+            binding.firstTipResult.text = getString(R.string.tip_amount, changeTip)
+            binding.firstTextCurrencyExchangeCost.text =
                 getString(R.string.currency_exchange_cost, formattedExchange)
             if (binding.roundUpSwitch.isChecked) {
-                binding.textCurrencyExchange.text =
+                binding.firstTextCurrencyExchange.text =
                     getString(R.string.currency_exchange_tip, formattedTip)
-            } else binding.textCurrencyExchange.text =
+            } else binding.firstTextCurrencyExchange.text =
                 getString(R.string.currency_exchange, formattedTip)
-            //Calculate exchange by multiplying the cost of service per the euro value
+            //Calculate the exchange by multiplying the cost of the service by the second currency exchange
             var exchange2 = cost.times(valueSecondExchange)
-            //Set the formatted Exchange to Euro
+            //Set the exchange format to the second currency exchange
             val formattedExchange2 =
                 NumberFormat.getCurrencyInstance(localeSecondExchange).format(exchange2)
-            //Calculating the tip in Euro
+            //Tip calculation based on the second currency exchange
             var tip2 = tipPercentage * exchange2
             //If the round up tip switch is checked, it will round up the tip to the highest value possible
             if (binding.roundUpSwitch.isChecked) {
@@ -136,21 +134,21 @@ class MainActivity : AppCompatActivity() {
             val formattedTip2 =
                 NumberFormat.getCurrencyInstance(localeSecondExchange).format(exchange2)
             val changeTip2 = NumberFormat.getCurrencyInstance(localeSecondExchange).format(tip2)
-            //Set text of euro values on screen
-            binding.tipResult2.text = getString(R.string.tip_amount, changeTip2)
-            binding.textCurrencyExchangeCost2.text =
+            //Set the text of values based on the second currency exchange on the screen
+            binding.secondTipResult.text = getString(R.string.tip_amount, changeTip2)
+            binding.secondTextCurrencyExchangeCost.text =
                 getString(R.string.currency_exchange_cost, formattedExchange2)
             if (binding.roundUpSwitch.isChecked) {
-                binding.textCurrencyExchange2.text =
+                binding.secondTextCurrencyExchange.text =
                     getString(R.string.currency_exchange_tip, formattedTip2)
-            } else binding.textCurrencyExchange2.text =
+            } else binding.secondTextCurrencyExchange.text =
                 getString(R.string.currency_exchange, formattedTip2)
         } else {
-            //Calculate exchange by multiplying the cost of service per the euro value
+            //Calculate the exchange by multiplying the cost of the service by the current currency
             var exchange = cost * value
-            //Set the formatted Exchange to Euro
+            //Set the exchange format to the current currency exchange
             val formattedExchange = NumberFormat.getCurrencyInstance(currentLocate).format(exchange)
-            //Calculating the tip in Euro
+            //Calculation of tip with current currency
             var tip = tipPercentage * exchange
             //If the round up tip switch is checked, it will round up the tip to the highest value possible
             if (binding.roundUpSwitch.isChecked) {
@@ -159,21 +157,22 @@ class MainActivity : AppCompatActivity() {
             exchange = exchange.plus(tip)
             val formattedTip = NumberFormat.getCurrencyInstance(currentLocate).format(exchange)
             val changeTip = NumberFormat.getCurrencyInstance(currentLocate).format(tip)
-            binding.tipResult.text = getString(R.string.tip_amount, changeTip)
-            binding.textCurrencyExchangeCost.text =
+            //Set the value text based on the current currency on the screen
+            binding.firstTipResult.text = getString(R.string.tip_amount, changeTip)
+            binding.firstTextCurrencyExchangeCost.text =
                 getString(R.string.currency_exchange_cost, formattedExchange)
             if (binding.roundUpSwitch.isChecked) {
-                binding.textCurrencyExchange.text =
+                binding.firstTextCurrencyExchange.text =
                     getString(R.string.currency_exchange_tip, formattedTip)
-            } else binding.textCurrencyExchange.text =
+            } else binding.firstTextCurrencyExchange.text =
                 getString(R.string.currency_exchange, formattedTip)
         }
     }
 
-
     /**
-     * The private function currencyExchange converts the cost of the service (in this case in dollars) in euro (referring to Italy,
-     * displaying on screen the cost with the tip rounded and not
+     * The private function currencyExchange detects the currency of the device (€-$-£) converts the cost of the service (in this case in dollars)
+     * in euro (with reference to Italy) and pounds (UK),
+     * calling the private function Change
      */
     private fun currencyExchange(cost: Double, tipPercentage: Double) {
         val numberFormat = NumberFormat.getCurrencyInstance(Locale.getDefault())
@@ -229,11 +228,11 @@ class MainActivity : AppCompatActivity() {
      * result in euro currency and after he turned to disabled the switch
      */
     private fun setTextToEmptyCurrencyEuro() {
-        binding.textCurrencyExchange.text = ""
-        binding.textCurrencyExchangeCost.text = ""
-        binding.tipResult2.text = ""
-        binding.textCurrencyExchange2.text = ""
-        binding.textCurrencyExchangeCost2.text = ""
+        binding.firstTextCurrencyExchange.text = ""
+        binding.firstTextCurrencyExchangeCost.text = ""
+        binding.secondTipResult.text = ""
+        binding.secondTextCurrencyExchange.text = ""
+        binding.secondTextCurrencyExchangeCost.text = ""
     }
 
     /**
