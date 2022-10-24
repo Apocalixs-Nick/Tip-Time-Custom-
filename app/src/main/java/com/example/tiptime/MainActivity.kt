@@ -69,18 +69,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     * It will accept a currency as a string and it will return it to Locale location
-     */
-    private fun transformCurrencySymbolToLocale(currency: String): Locale {
-        return when (currency) {
-            "$" -> Locale.US
-            "€" -> Locale.ITALY
-            "£" -> Locale.ENGLISH
-            else -> Locale.getDefault()
-        }
-    }
-
-    /**
      * Private function for setting text, calculations and currency exchange
      */
     private fun Change(
